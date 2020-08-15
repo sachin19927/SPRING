@@ -1,0 +1,21 @@
+ctl+space = suggestion
+ctrl+1 =import and variable sugestion
+ctrl+shift+R = Applciation files search
+ctrl+shift+T = Search class Files
+ctrl+shift+L = String Base search of code / Shortcut menu for shortcuts
+f3= on method will show its implementaion
+f4= whole class/method hierarchy
+view=> windowc-> show views -> select any view like console,server,pracakge exploerer,navigaotr etc
+persepective= > like how prepsetive debug mode , java mode required can save my custom by adding and removing vies and save new perspective
+ctrl+shift+f= format
+ctrl+shift+o= handle import export issues
+ctrl+A  ctrl+ i = align
+
+to atutomaticaly allign after each save
+preference->save->Editor->save action select wt ever we need can make lot changes with this
+
+
+ALt+shift+s +R getter setter
+
+alt+shift+s =constructor,tostring,hascode,equals
+
