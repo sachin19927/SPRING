@@ -1,0 +1,349 @@
+
+
+Shakespeer document mapping
+{
+    "line_id": INT,
+    "play_name": "String",
+    "speech_number": INT,
+    "line_number": "String",
+    "speaker": "String",
+    "text_entry": "String",
+}
+
+
+PUT /shakespeare?pretty
+{
+ "mappings": {
+
+   "properties": {
+    "speaker": {"type": "text"},
+    "play_name": {"type": "text"},
+    "line_id": {"type": "integer"},
+    "speech_number": {"type": "text"}
+   }
+  }
+
+}
+
+curl -H "Content-Type: application/json" -XPOST "localhost:9200/shakespeare/doc/_bulk?pretty" --data-binary "@shakespeare_6.0.json"
+
+// BANK structure
+
+{
+    "account_number": INT,
+    "balance": INT,
+    "firstname": "String",
+    "lastname": "String",
+    "age": INT,
+    "gender": "M or F",
+    "address": "String",
+    "employer": "String",
+    "email": "String",
+    "city": "String",
+    "state": "String"
+}
+
+curl -H "Content-Type: application/json" -XPOST "localhost:9200/bank/account/_bulk?pretty" --data-binary "@accounts.json"
+
+#query to fecth address either have lane or street in the name and have bal range 20000 to 3000
+
+GET /bank/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {"match": {
+          "address": "lane street"
+        }}
+      ],
+      "filter": [
+        { "range": {
+          "balance": {
+            "gte": 20000,
+            "lte": 30000
+          }
+        }}
+      ]
+    }
+  }
+}
+
+
+
+
+GET /bank/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {"match": {
+          "address": "lane street"
+        }}
+      ],
+      "filter": [
+        { "range": {
+          "balance": {
+            "gte": 20000,
+            "lte": 30000
+          }
+        }}
+      ],"must_not": [
+        {"range": {
+          "balance": {
+            "gte": 21000,
+            "lte": 22000
+          }
+        }}
+      ]
+    }
+  }
+}
+
+
+
+
+#Compund queries
+#boolean queries
+#query to fecth address either have lane or street in the name and have bal range 20000 to 3000
+
+GET /bank/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {"match": {
+          "address": "lane street"
+        }}
+      ],
+      "filter": [
+        { "range": {
+          "balance": {
+            "gte": 20000,
+            "lte": 30000
+          }
+        }}
+      ],"must_not": [
+        {"range": {
+          "balance": {
+            "gte": 21000,
+            "lte": 22000
+          }
+        }}
+      ]
+    }
+  }
+}
+
+#Compun queries
+#boosting queries
+# serach chruh or lan in address but priority to chruch over lane
+
+GET /bank/_search
+{
+  "query": {
+    "boosting": {
+      "positive": {
+"term": {
+          "address": {
+            "value": "church"
+          }
+        }
+      },
+      "negative": {
+        "term": {
+          "address": {
+            "value": "lane"
+          }
+        }
+        
+      },
+      "negative_boost": 0.5
+    }
+    
+}
+
+}
+
+  
+#Compun queries
+#Constant Queries
+# serach chruh or lan in address make sure they same reslance
+
+
+
+GET /bank/_search
+{
+  "query": {
+    "constant_score": {
+      "filter": {
+        "term": {
+          "address": "lane"
+        }
+      },
+      "boost": 1.2
+    }
+  }
+}
+
+
+POST /customer/_doc/_bulk?pretty
+{"index":{"_id":10}}
+{"name":"soumya","age":27}
+{"index":{"_id":10}}
+{"name":"bindisha","age":28}
+
+PUT /customer/_doc/1/
+{
+  "doc":
+  {
+    "name":"sachin hs", "age":28
+  }
+}
+
+POST /customer/_doc?pretty
+{
+  "script":"ctx._source.age+=5"
+}
+
+
+POST /customer/_doc/_bulk?pretty
+{"update":{"_id":10}}
+{"doc":{"name":"soumya indi","age":27}}
+{"delete":{"_id":11}}
+
+DELETE /customer/_doc/7
+
+DELETE customer2
+
+GET bank/_search
+{
+  "query": {"match": {
+    "address" : "church lane"
+  }}
+}
+
+
+GET bank/_search
+{
+  "query": {"match_phrase": {
+    "address" : "church lane"
+  }}
+}
+
+
+
+GET bank/_search
+{
+  "query": {"match_phrase_prefix": {
+    "address" : "church"
+  }}
+}
+
+GET bank/_search
+{
+  "query": {"multi_match": {
+    "query": "40", 
+    "fields": ["firstname","age"]
+  }}
+}
+
+GET bank/_search
+{
+  "query": {
+    "query_string": {
+      "default_field": "city",
+      "query": "(Chilton AND Umapine) OR Wanamie"
+    }
+  }
+}
+
+GET bank/_search
+{
+  "query": {
+    "term": {
+      "age": {
+        "value": "40"
+      }
+    }
+  }
+}
+
+GET bank/_search
+{
+  "query": {
+    "range": {
+      "age": {
+        "gte": 40,
+        "lt": 60
+      }
+    }
+  }
+}
+
+GET bank/_search
+{
+  "query": {
+    "range": {
+      "age": {
+        "gte": 20,
+        "lte": 60
+      }
+    }
+  }
+}
+
+
+POST /_analyze
+{
+  "analyzer": "standard",
+  "text": "A quick brown fox"
+}
+
+
+POST /_analyze
+{
+  "analyzer": "whitespace",
+  "text": "A quick brown fox"
+}
+
+
+POST /_analyze
+{
+  "tokenizer": "keyword",
+  "char_filter": ["html_strip"],
+  "text": "<p>I am so sad</p>"
+}
+
+POST /_analyze
+{
+  "tokenizer": "lowercase",
+  "text": "A quick brown fox"
+}
+
+POST /_analyze
+{
+  "tokenizer": "keyword",
+  "text": "A quick brown fox"
+}
+
+
+POST /_analyze
+{
+  "analyzer": "stop",
+  "text": "A quick brown fox"
+}
+
+
+POST /_analyze
+{
+  "analyzer": "fingerprint",
+  "text": "yes yes yes quick brown fox"
+}
+
+FULL TEXT Queries
+
+1 INTERVAL QUERIES
+
+
+
+

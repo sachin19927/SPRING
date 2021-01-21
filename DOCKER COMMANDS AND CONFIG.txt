@@ -1,0 +1,307 @@
+sachingowd07
+g1sachind2
+
+
+https://labs.play-with-docker.com
+to test docker commnad with out isnatlling
+
+aws free tier
+- to get free linux instane in AWS
+
+
+
+clean install  => mvn build
+
+create Dockerfile in Project root  =>Dockerfile
+
+in Docekerfile
+
+we need to tell what kind applciation it is
+
+FROM     (Basically downloads image)
+
+
+TUTORIAL 2 
+
+1 create Spring BOOT Project
+2 Create Docker File
+3 Create Local image of Docker
+4 Push Image to Docker hub
+5 pull image from dockerhub
+6 run the image using docker hub
+
+1 create Spring BOOT Project
+demo-docker2  demo-docker.jar
+
+
+
+2 Create Docker File
+FROM java:8
+
+EXPOSE 8080
+
+ADD target/demo-docker.jar demo-docker.jar 
+
+ENTRYPOINT ["java","-jar","demo-docker.jar"] 
+
+FROM java:8    (Mapping it with java 8 take java 8 image file fetch wt we are mapping)
+EXPOSE 8080  default port setting
+ADD target/demo-docker.jar demo-docker.jar          target/demo-docker.jar(target where jar wil be found) demo-docker.jar (mapped to docker )  
+
+
+MVN clean install jar will be created
+
+
+3 Create Local image of Docker
+
+
+CREATING IN BROWER
+Next is https://hub.docker.com
+
+GO TO MY REPO
+https://hub.docker.com/repository/
+
+CREATE MY REPO IN Browser
+https://hub.docker.com/repository/create
+
+CRATED REPO :   docker push sachingowd07/basicdockerhubdemo:tagname
+
+
+CREATING IN LOCAL USING CMD
+
+Admin CMD
+
+cmd: docker login
+Login succeeded
+
+cmd: cls     (clear )
+
+
+Now Map provided URL DOCKERFILE in project
+D:\>cd GITREPOSITORYS\demo-docker2
+ls
+
+
+
+D:\GITREPOSITORYS\demo-docker2>docker build -t docker-demo
+"docker build" requires exactly 1 argument.
+See 'docker build --help'.
+
+Usage:  docker build [OPTIONS] PATH | URL | -
+
+Build an image from a Dockerfile
+
+D:\GITREPOSITORYS\demo-docker2>docker build -t docker-demo .
+
+
+
+D:\GITREPOSITORYS\demo-docker2>docker build -t docker-demo .
+Sending build context to Docker daemon  18.61MB
+Step 1/4 : FROM java:8
+8: Pulling from library/java
+image operating system "linux" cannot be used on this platform
+
+Restart System docker icon right click switch to windows conatainer
+
+
+D:\GITREPOSITORYS\demo-docker2>docker build -t docker-demo .
+Sending build context to Docker daemon  18.61MB
+Step 1/4 : FROM java:8
+ ---> d23bdf5b1b1b
+Step 2/4 : EXPOSE 8080
+ ---> Using cache
+ ---> 040b237de6d7
+Step 3/4 : ADD target/demo-docker.jar demo-docker.jar
+ ---> 653a01f1f7db
+Step 4/4 : ENTRYPOINT ["java","-jar","demo-docker.jar"]
+ ---> Running in 07182000f0fc
+Removing intermediate container 07182000f0fc
+ ---> 04baa24df710
+Successfully built 04baa24df710
+Successfully tagged docker-demo:latest
+SECURITY WARNING: You are building a Docker image from Windows against a non-Windows Docker host. All files and directories added to build context will have '-rwxr-xr-x' permissions. It is recommended to double check and reset permissions for sensitive files and directories.
+
+
+
+After this Local image ic created
+
+D:\GITREPOSITORYS\demo-docker2>docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED              SIZE
+docker-demo         latest              04baa24df710        About a minute ago   662MB
+java                8                   d23bdf5b1b1b        3 years ago          643MB
+
+
+
+4 Push Image to Docker hub
+
+docker tag docker-demo sachingowd07/docker-demo
+-
+tag this docker-demo image to sachingowd07 user of docker-demo repo newly created
+
+D:\GITREPOSITORYS\demo-docker2>docker push sachingowd07/docker-demo
+The push refers to repository [docker.io/sachingowd07/docker-demo]
+0a875ec30a58: Pushed                                                                                                    35c20f26d188: Mounted from library/java                                                                                 c3fe59dd9556: Mounted from library/java                                                                                 6ed1a81ba5b6: Mounted from library/java                                                                                 a3483ce177ce: Mounted from library/java                                                                                 ce6c8756685b: Mounted from library/java                                                                                 30339f20ced0: Mounted from library/java                                                                                 0eb22bfb707d: Mounted from library/java                                                                                 a2ae92ffcd29: Mounted from library/java                                                                                 latest: digest: sha256:e12400f8e921ec0ec20c790c456e61f0416e12bbaa7778950dc9110df2650288 size: 2212
+
+
+
+
+5 pull image from dockerhub
+
+docker rmi docker-demo sachingowd07 sachingowd07/docker-demo
+
+rmi remove images
+
+D:\GITREPOSITORYS\demo-docker2>docker run  -p 8080:8080 sachingowd07/docker-demo      8080:8080  port no of local m/c : port no of image pullling
+
+D:\GITREPOSITORYS\demo-docker2>ping 8080
+
+Pinging 0.0.31.144 with 32 bytes of data:
+PING: transmit failed. General failure.
+PING: transmit failed. General failure.
+PING: transmit failed. General failure.
+PING: transmit failed. General failure.
+
+Ping statistics for 0.0.31.144:
+    Packets: Sent = 4, Received = 0, Lost = 4 (100% loss),
+
+D:\GITREPOSITORYS\demo-docker2>docker run  -p 8080:8080 sachingowd07/docker-demo
+Unable to find image 'sachingowd07/docker-demo:latest' locally
+latest: Pulling from sachingowd07/docker-demo
+5040bd298390: Already exists                                                                                                                                                                                       fce5728aad85: Already exists                                                                                                                                                                                       76610ec20bf5: Already exists                                                                                                                                                                                       60170fec2151: Already exists                                                                                                                                                                                       e98f73de8f0d: Already exists                                                                                                                                                                                       11f7af24ed9c: Already exists                                                                                                                                                                                       49e2d6393f32: Already exists                                                                                                                                                                                       bb9cdec9c7f3: Already exists                                                                                                                                                                                       25e037b5357e: Pull complete                                                                                                                                                                                        Digest: sha256:e12400f8e921ec0ec20c790c456e61f0416e12bbaa7778950dc9110df2650288
+Status: Downloaded newer image for sachingowd07/docker-demo:latest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.3.4.RELEASE)
+
+2020-09-26 19:43:36.607  INFO 1 --- [           main] com.example.demo.DemoDocker2Application  : Starting DemoDocker2Application v0.0.1-SNAPSHOT on 1397ae871a34 with PID 1 (/demo-docker.jar started by root in /)
+2020-09-26 19:43:36.613  INFO 1 --- [           main] com.example.demo.DemoDocker2Application  : No active profile set, falling back to default profiles: default
+2020-09-26 19:43:39.155  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2020-09-26 19:43:39.180  INFO 1 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-09-26 19:43:39.181  INFO 1 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.38]
+2020-09-26 19:43:39.344  INFO 1 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-09-26 19:43:39.344  INFO 1 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2614 ms
+2020-09-26 19:43:40.053  INFO 1 --- [           main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-09-26 19:43:40.450  INFO 1 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2020-09-26 19:43:40.520  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2020-09-26 19:43:40.542  INFO 1 --- [           main] com.example.demo.DemoDocker2Application  : Started DemoDocker2Application in 4.773 seconds (JVM running for 5.891) 
+
+now in images we can see 2 dockers one from local  and one from in repo delete the local repo since we will from dockerhub
+
+
+6 run the image using docker hub
+
+D:\GITREPOSITORYS\demo-docker2>docker run  -p 8080:8080 sachingowd07/docker-demo
+
+
+
+
+
+Google Cloud Platform
+
+To deploy our applcaition
+
+
+Project name
+My Project 80279 
+
+1 Go to console -> set Billing if not set 
+2 kubernetes engine (it is provided by google platform) menu after billing account set
+
+Create Cluster its main thing where all will be deployed without cluster no deployment can happpen
+
+k8s -(kubernetes)
+
+cluster name :  k8s-docker demo
+Once Cluster Created Connect Cloud Shell
+
+
+Deploy YAML file in Kubernet
+Upload yml file
+
+Welcome to Cloud Shell! Type "help" to get started.
+Your Cloud Platform project in this session is set to hale-function-227606.
+Use “gcloud config set project [PROJECT_ID]” to change to a different project.
+sachin19927@cloudshell:~ (hale-function-227606)$ gcloud container clusters get-credentials k8s-docker-demo-cluster --zone us-central1-c --project hale-funct
+ion-227606
+Fetching cluster endpoint and auth data.
+kubeconfig entry generated for k8s-docker-demo-cluster.
+sachin19927@cloudshell:~ (hale-function-227606)$ ls
+docker-k8s-demo.yaml  README-cloudshell.txt
+sachin19927@cloudshell:~ (hale-function-227606)$ kubectl apply -f docker-k8s-demo.yaml
+
+error: error validating "docker-k8s-demo.yaml": error validating data: ValidationError(Deployment.spec.selector): unknown field "matchLables" in io.k8s.apim
+achinery.pkg.apis.meta.v1.LabelSelector; if you choose to ignore these errors, turn validation off with --validate=false
+sachin19927@cloudshell:~ (hale-function-227606)$
+
+matchLables to matchLabels
+
+will fix issue
+
+
+
+cluster will create container
+
+Check Cluster Details
+
+Go to workloads for deploy
+
+ONce it ok click on Deployment link
+
+Expose the Service
+
+Set TargetPORT same as in YAML file
+
+Set SErvice TYpe   
+Cluster IP : Interact service internally on Kubernet service not for outside world
+Load Balancer : Expose to extranlly use Load balacner
+
+select Load Balancer
+
+Expose
+
+http://35.224.131.22:80  ip
+
+http://35.224.131.22  Load IP publi ip
+
+To avoid charing delete cluster 
+
+http://35.224.131.22/getmsg
+
+
+
+Create deployment file from project
+depolyment done by YAML file
+
+add these data in root of yaml file
+
+- saysit is type of deployment with replica 1 we can have many replicas with name docker-k8s-demo
+
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: docker-k8s-demo-deployment
+  labels:
+    app: docker-k8s-demo
+spec:
+  replicas: 1
+  selector:
+    matchLables:
+      app: docker-k8s-demo
+  template :
+    metadata:
+      labels: 
+        app: docker-k8s-demo
+    spec:
+      containers:
+      - name: docker-k8s-demo
+        image: sachingowd07/docker-demo  
+        ports: 
+        - containerPort: 8080
+		
+image nothing image which we can deploy
+deploy from docker		

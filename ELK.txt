@@ -1,0 +1,421 @@
+Download ELK go to bin path
+
+cmd:cd  D:\devtools\elasticsearch-7.8.0\bin
+cmd :elasticsearch.bat
+
+EL Search is REST based API to Query it we need to call rest base query
+
+set PATH=C:\Program Files\Java\jdk1.8.0_151\bin
+
+http://localhost:9200/to verify defalut port 9200
+
+furthur query can be down through POSTMAN r CURL
+
+
+Kibana
+
+cmd :cd devtools\kibana-7.8.0-windows-x86_64\bin
+cmd : kibana.bat
+
+http://localhost:5601/ to verify default port 5601
+
+
+
+
+
+D:\devtools\elasticsearch-7.8.0\bin
+D:\devtools\kibana-7.8.0-windows-x86_64\bin
+D:\devtools\logstash-7.8.0\bin
+
+once all set create logstash.conf file 
+after setting path we can create this file any where file name can be anything
+
+cmd: cd D:\devtools\logstash_conf_file
+cmd: logstash -f logstash.conf
+
+
+Simple Logstash confif in cmd itself
+-e flag enable to read form command line r else need to create config file
+cmd: logstash -e 'input{stdin{}}output{stdout{}}'
+
+in conf file 3 parts mainly
+Input,filter,Output
+
+input from where to get data and 
+stdin{} =>read std in from console
+
+
+output to technology need to send data
+index name should be in lower always
+
+SAmple 1
+
+
+
+
+input {
+  stdin{}
+}
+output {
+   elasticsearch {
+      hosts => ["localhost:9200"]
+      index => "jvvnlgen-%{+YYYY.MM.dd}"
+      
+    }
+}
+
+
+
+Kibana - create Index pattern search for indexed name 
+
+CSV data to kibana
+to have sample data set goto kaggle.com to get sample data sets
+
+https://www.kaggle.com/datasets
+
+take any sample
+
+new conf file
+
+INPUT
+file giving file path to take csv
+its not a json file
+path=>D:/devtools/logstash_conf_file/COVID19_line_list_data.csv   = read single csv
+path=>D:/devtools/logstash_conf_file/*.csv   to read all csv in tat folder
+start_position=> "beginning"   => postion to read file data from start
+sincedb_path="/dev/null" linux
+sincedb_path="NULL"  windows-x86_64\bin
+If any creash in middle of csv reading it will start from where it ended
+
+
+FILTER
+
+filter csv data so 
+applay fiter 
+csv
+separator will be "," methion cloumn to taken from csv
+
+stdout{}  show log msgs in consloe which being tranfered
+
+SAMPLE 2
+
+input {
+  file
+  {
+  
+   path=>D:/devtools/logstash_conf_file/*.csv
+   start_position=> "beginning"
+   sincedb_path="NULL"
+  }
+}
+
+filter{
+csv{
+separator=>","
+columns=>["reporting","summary","country"]
+}
+
+}
+
+
+output {
+   elasticsearch {
+      hosts => ["localhost:9200"]
+      index => "covid_csv-19"
+      
+    }
+	stdout{}
+	
+}
+
+
+
+
+input {
+    kafka {
+            bootstrap_servers => "localhost:9092"
+            topics => ["test_blog"]
+    }
+}output {
+   elasticsearch {
+      hosts => ["localhost:9200"]
+      index => "test_blog-%{+YYYY.MM.dd}"
+      workers => 1
+    }
+}
+
+
+BEATS
+
+FILE BEATS
+filebeat.exe -c fields.yml -e -d "*"
+winlogbeat.exe -c winlogbeat.yml -e -d "*"
+metricbeat.exe -e -d "publish"
+
+
+X-pack to provide alerting secuirty 
+
+config in elastic.yml ,kbiana.yml, logstash.yml 
+enable x-pack
+
+
+
+
+elasticsearch.yml
+xpack.secuirty.enabled: true
+
+cmd: elasticsearch-setup-password auto/interval
+
+kibana.yml
+elasticsearch.username:""
+elasticsearch.password:""
+
+
+----------------------------------------------------------------Elastic query--------------------------------------------------------
+
+INDEX API DOCUMENT
+Kiban devtools 
+call
+
+https://www.elastic.co/guide/index.html
+
+preety to get json formated output
+
+GET API
+GET /_cat/health?v 
+GET /_cat/health?v&pretty
+
+
+TO PUT data to elastic Search
+
+PUT API
+REQ:
+PUT /customer/_doc/1?pretty
+{
+  "name":"sachin"
+}
+
+REsponse: 
+{
+  "_index" : "customer",
+  "_type" : "_doc",
+  "_id" : "1",
+  "_version" : 1,
+  "result" : "created",
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "_seq_no" : 0,
+  "_primary_term" : 1
+}
+
+ GET /customer/_doc/1
+ 
+ {
+  "_index" : "customer",
+  "_type" : "_doc",
+  "_id" : "1",
+  "_version" : 1,
+  "_seq_no" : 0,
+  "_primary_term" : 1,
+  "found" : true,
+  "_source" : {
+    "name" : "sachin"
+  }
+}
+
+
+
+
+  
+GET /covid_csv-19/_search
+{
+  "query": {"match": {
+    "column20": "Gulf News"
+  }}
+}  
+
+
+
+
+
+If we have bulk data Then bulk Data API can be used rather then iterating it will bacth it
+
+
+curl -H "Content-Type:application/json" -XPOST "localhost:9200/childcare/_bulk?pretty&refresh" --data-binary "@socrata_metadata.json"
+D:\devtools\logstash_conf_file>curl -H "Content-Type:application/json" -XPOST "localhost:9200/street/\_bulk?pretty&refresh" --data-binary "@socrata_metadata.json"
+
+curl "localhost:9200/_cat/indices?v"
+
+GET /customer/_search?pretty
+{
+  "query": {"match": {
+    "name": "sachin"
+  }},
+"sort": [
+  {
+    "name.keyword": {
+      "order": "asc"
+    }
+  }
+]
+}
+
+GET /customer/_search?pretty
+{
+
+"sort": [
+  {
+    "name.keyword": {
+      "order": "desc"
+    }
+  }
+]
+}
+
+GET /customer/_search?pretty
+{
+"query": {"bool": {"must": [
+  { "match": {
+    "name": "sachin"
+  }}
+], "must_not": [
+  {
+    "match": {
+    "name": "indi"
+  }
+  }
+]} 
+}
+
+}
+
+
+
+GET /customer/_search?pretty
+{
+  "query": {"match": {
+    "name": "sachin"
+  }},
+  "from": 0,
+  "size": 1
+}
+
+
+// matches wih substring
+GET /covid_csv-19/_search
+{
+  "query": {
+    "match": {
+    "country": "Ceara"
+  }},
+  "sort": [
+    {
+      "summary.keyword": {
+        "order": "desc"
+      }
+    }
+  ], 
+  "from": 0,
+  "size": 2000
+}
+
+// exact match of that string
+GET /covid_csv-19/_search
+{
+  "query": {"match_phrase": {
+    "column8": "male"
+  }},
+  "sort": [
+    {
+      "summary.keyword": {
+        "order": "desc"
+      }
+    }
+  ], 
+  "from": 0,
+  "size": 2000
+}
+
+// matched if its prefis in string
+GET /covid_csv-19/_search
+{
+  "query": {"match_phrase_prefix": {
+    "column8": "fe"
+  }},
+  "sort": [
+    {
+      "summary.keyword": {
+        "order": "desc"
+      }
+    }
+  ], 
+  "from": 0,
+  "size": 2000
+}
+
+
+bool to join query
+
+GET /covid_csv-19/_search
+{
+  "query": {"bool": {"must": [
+    {"match_all": {}}
+  ],
+  "filter": [
+    {"range": {
+      "reporting.keyword": {
+        "gte": "81286",
+        "lte": "81290"
+      }
+    }}
+  ]
+    
+  }}
+}
+
+// match all but filter with this range
+GET /covid_csv-19/_search
+{
+  "query": {
+    "bool": {"must": [
+      {"match_all": {}}
+    ], 
+      "filter": [
+        {"range": {
+          "column7": {
+            "gte": 8850.0,
+            "lte": 8900.0
+          }
+        }}
+      ]
+    }
+    
+  },
+  "sort": [
+    {
+      "summary.keyword": {
+        "order": "desc"
+      }
+    }
+  ], 
+  "from": 0,
+  "size": 2000
+}
+
+
+
+SEARCH API DOCUMENT
+
+GET /customer/_search
+{
+  "query": 
+  {
+  "match": 
+  {
+    "name": "sachin"
+  }
+  }
+}

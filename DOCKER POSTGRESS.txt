@@ -1,0 +1,88 @@
+DOCKER POSTGRESS
+
+
+docker login
+
+docker images
+
+docker pull postgres:alpine 
+
+alpine which is the lowset for verison consume less memory
+
+docker run --name postgres_doc -e POSTGRES_PASSWORD=sachin -d postgres:alpine
+
+C:\Windows\system32>docker run --name postgres_doc -e POSTGRES_PASSWORD=sachin -d postgres:alpine
+69986c09c452f9b7c0184691b9fb716321b1ec7079142073b9b1c0a48aebde2b
+
+
+
+C:\Windows\system32>docker run --name postgres_doc -e POSTGRES_PASSWORD=sachin -d postgres:alpine
+docker: Error response from daemon: Conflict. The container name "/postgres_doc" is already in use by container "69986c09c452f9b7c0184691b9fb716321b1ec7079142073b9b1c0a48aebde2b". You have to remove (or rename) that container to be able to reuse that name.
+See 'docker run --help'.
+
+C:\Windows\system32>docker run --name postgres_doc -e POSTGRES_PASSWORD=sachin -d -p 5432:5432 postgres:alpine
+
+
+C:\Windows\system32>docker run --name postgres_doc -e POSTGRES_PASSWORD=sachin -d -p 5432:5432 postgres:alpine
+
+
+
+
+C:\Windows\system32>docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
+69986c09c452        postgres:alpine     "docker-entrypoint.s…"   2 hours ago         Up 2 hours          5432/tcp            postgres_doc
+
+
+docker exec -it postgres_doc bash
+
+to access instance 
+
+pwd 
+
+ls
+
+
+bash-5.0# psql -U postgres
+psql (13.0)
+Type "help" for help.
+
+postgres=# \du
+                                   List of roles
+ Role name |                         Attributes                         | Member of
+-----------+------------------------------------------------------------+-----------
+ postgres  | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+
+postgres=# create database personal;
+CREATE DATABASE
+postgres=# \l
+                                 List of databases
+   Name    |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges
+-----------+----------+----------+------------+------------+-----------------------
+ personal  | postgres | UTF8     | en_US.utf8 | en_US.utf8 |
+ postgres  | postgres | UTF8     | en_US.utf8 | en_US.utf8 |
+ template0 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |          |          |            |            | postgres=CTc/postgres
+ template1 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |          |          |            |            | postgres=CTc/postgres
+(4 rows)
+
+postgres=# \c personal
+You are now connected to database "personal" as user "postgres".
+personal=# create schema blog_app
+personal-# create schema toyjoy
+personal-# create schema toyjoy_ext
+personal-#\dt
+personal-#\d user
+personal-#\d+ user
+personal-#\q
+
+C:\Windows\system32>docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
+69986c09c452        postgres:alpine     "docker-entrypoint.s…"   2 hours ago         Up 2 hours          5432/tcp            postgres_doc
+
+C:\Windows\system32>docker stop 69986c09c452
+69986c09c452
+
+
+we want this container connecting this postgres image from application
+

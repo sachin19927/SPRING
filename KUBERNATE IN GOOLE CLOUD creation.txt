@@ -1,0 +1,304 @@
+KUBERNETS
+
+GKE  GOOGLE KUBERNET ENGINE
+
+CREATE CLUSETER using GKE
+
+
+GOOGLE is createer of kubernate  but its opensource now
+
+
+Container who are using moving to Kubernate
+
+
+GKE-> Account
+
+Kubernates
+
+Create Cluster -> with selectin Project
+
+Cluster Name: cluster-demo
+
+Region any : zonal
+
+Master Verison : default gk36
+
+
+Node Pools:
+
+For a cluster we can have 3 / many node depends on Project
+
+create 3 node cluster by default its 3 nodes
+
+Each Node have 4gm of memeroy with one 1 cpu r default
+
+can create pool on specific envirnoment
+dev , prod, test
+
+But we can all 3 as same
+
+
+SO ONce its start
+
+Cluster creation will amke
+
+Kubernate master (API SERVER,SCHDUKER, etcd,controller manager)
+
+Proxy deployed inside pot (docker container ,kubelet)
+ 
+ 
+
+
+WE can Deploy docker in to kubernate from local system for that Docker to be installed
+but better we can take from git only using goole active shell command since its linux system we can work on docker and import project
+
+
+Activate Cloud Shell
+
+
+Welcome to Cloud Shell! Type "help" to get started.
+Your Cloud Platform project in this session is set to hale-function-227606.
+Use “gcloud config set project [PROJECT_ID]” to change to a different project.
+sachin19927@cloudshell:~ (hale-function-227606)$ git clone  https://github.com/sachin19927/BlogApp.git
+Cloning into 'BlogApp'...
+remote: Enumerating objects: 195, done.
+remote: Counting objects: 100% (195/195), done.
+remote: Compressing objects: 100% (117/117), done.
+remote: Total 195 (delta 58), reused 181 (delta 44), pack-reused 0
+Receiving objects: 100% (195/195), 232.52 KiB | 86.00 KiB/s, done.
+Resolving deltas: 100% (58/58), done.
+sachin19927@cloudshell:~ (hale-function-227606)$ ./mvnw clean install
+getting permisson denied
+
+sachin19927@cloudshell:~ (hale-function-227606)$  ls -lrt
+
+sachin19927@cloudshell:~ (hale-function-227606)$ chmod +x mvn
+sachin19927@cloudshell:~ (hale-function-227606)$ ./mvnw clean install
+sachin19927@cloudshell:~ (hale-function-227606)$ ./mvnw clean -Dmaven.test.skip=true install
+
+will fix this
+
+
+
+It will running inside google computing engine
+Goolge will create a computin enigne oncewe call cloud shell it created whole m/c
+
+in case of AWS uses EC2 instacne similar to above cration
+
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  44.346 s
+[INFO] Finished at: 2020-09-27T08:20:27Z
+[INFO] ------------------------------------------------------------------------
+root@cs-854085220221-default-default-4xhkp:/home/sachin19927/BlogApp# ls -lrt
+total 36
+-rw-r--r-- 1 sachin19927 sachin19927  4567 Sep 27 08:00 pom.xml
+-rw-r--r-- 1 sachin19927 sachin19927  6608 Sep 27 08:00 mvnw.cmd
+-rwxr-xr-x 1 sachin19927 sachin19927 10070 Sep 27 08:00 mvnw
+drwxr-xr-x 4 sachin19927 sachin19927  4096 Sep 27 08:00 src
+drwxr-xr-x 6 root        root         4096 Sep 27 08:20 target
+root@cs-854085220221-default-default-4xhkp:/home/sachin19927/BlogApp# cd target/
+root@cs-854085220221-default-default-4xhkp:/home/sachin19927/BlogApp/target# ls
+BlogApp-0.0.1-SNAPSHOT.jar  BlogApp-0.0.1-SNAPSHOT.jar.original  classes  generated-sources  maven-archiver  maven-status
+root@cs-854085220221-default-default-4xhkp:/home/sachin19927/BlogApp/target# java -jar BlogApp-0.0.1-SNAPSHOT.jar
+
+
+root@cs-854085220221-default-default-4xhkp:/home/sachin19927# git clone https://github.com/sachin19927/SpringBootBaseDemo.git
+mote: Counting objects: 100% (31/31), done.
+remote: Compressing objects: 100% (21/21), done.
+remote: Total 31 (delta 0), reused 31 (delta 0), pack-reused 0
+Unpacking objects: 100% (31/31), done.
+root@cs-854085220221-default-default-4xhkp:/home/sachin19927# ls
+BlogApp  docker-k8s-demo.yaml  README-cloudshell.txt  SpringBootBaseDemo
+root@cs-854085220221-default-default-4xhkp:/home/sachin19927# ls -lrt
+total 16
+-rw-r--r-- 1 sachin19927 sachin19927  432 Sep 27 06:52 docker-k8s-demo.yaml
+-rw-r--r-- 1 sachin19927 sachin19927  913 Sep 27 07:58 README-cloudshell.txt
+drwxr-xr-x 6 sachin19927 sachin19927 4096 Sep 27 08:19 BlogApp
+drwxr-xr-x 5 root        root        4096 Sep 27 08:29 SpringBootBaseDemo
+root@cs-854085220221-default-default-4xhkp:/home/sachin19927# cd SpringBootBaseDemo/
+root@cs-854085220221-default-default-4xhkp:/home/sachin19927/SpringBootBaseDemo# ls
+mvnw  mvnw.cmd  pom.xml  src
+root@cs-854085220221-default-default-4xhkp:/home/sachin19927/SpringBootBaseDemo# ./mvnw clean  -Dmaven.test.skip=true install
+bash: ./mvnw: Permission denied
+root@cs-854085220221-default-default-4xhkp:/home/sachin19927/SpringBootBaseDemo# chmod +x mvnw
+root@cs-854085220221-default-default-4xhkp:/home/sachin19927/SpringBootBaseDemo# ./mvnw clean  -Dmaven.test.skip=true install
+[INFO
+
+root@cs-854085220221-default-default-4xhkp:/home/sachin19927/SpringBootBaseDemo/target# java -jar SpringBootBaseDemo-0.0.1-SNAPSHOT.jar
+
+
+once server started to access it go to web viwer
+
+https://8585-8fec4f26-4974-4e04-b7f6-961438216fb7.asia-southeast1.cloudshell.dev/SpringBootBaseDemo/
+
+Toatly it compute engine
+
+Now deploy this in Kubernate engine
+
+Now convert this Spring Boot app to Docker Image to deploy in kubernate
+
+./mvnw com.google.cloud.tools:jib-maven-plugin:build -Dimage=gcr.io/$GOOGLE_CLOUD_PROJECT/SpringBootBaseDemo:v1
+./mvnw com.google.cloud.tools:jib-maven-plugin:build -Dimage=gcr.io/My Project 80279/SpringBootBaseDemo:v1
+
+
+
+
+
+
+IF NO POM XML 
+root@cs-854085220221-default-default-2xmbr:/home/sachin19927/SpringBootBaseDemo# ./mvnw compile com.google.cloud.tools:jib-maven-plugin:build -Dimage=gcr.io/hale-function-227606/sachin-demo:v1
+
+
+R ELSE ADD THIS PLUGIN WEOKSPACE
+
+<plugin>
+  <groupId>com.google.cloud.tools</groupId>
+  <artifactId>jib-maven-plugin</artifactId>
+  <version>2.0.0</version>
+  <configuration>
+    <to>
+      <image>gcr.io/hale-function-227606/sachin-demo:v1</image>
+    </to>
+  </configuration>
+</plugin>
+
+mvn compile jib:build
+
+mvn compile jib:dockerBuild
+
+
+Now the container is created in google cloud itself
+
+
+
+after this image will place in google container registry
+
+ from this we need to push it its pods
+ 
+ 
+ Now push the register container to cluster
+ 
+ Login from Console to particluar cluster using : gcloud api   :> its google cloud API
+ 
+ cluster : demo-cluster-git 	
+ 
+gcloud container clusters get-credentials demo-cluster-git --zone us-central1-c 
+ 
+ particalur based on project
+  gcloud container clusters get-credentials demo-cluster-git --zone us-central1-c --project hale-function-227606
+
+now connected to kubernatice instacne 
+kubectl  is commnad interface for kubernet any thing we cant controll in kubernet then kubectl is command it is kube controller
+
+sachin19927@cloudshell:~ (hale-function-227606)$ kubectl get deployments
+No resources found in default namespace.
+
+TO know if any deployment is there
+
+sachin19927@cloudshell:~ (hale-function-227606)$ kubectl get service
+^[[ANAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.4.0.1     <none>        443/TCP   6h5m
+
+Service running default kubernate service will be running with ClusterIP
+
+
+
+sachin19927@cloudshell:~ (hale-function-227606)$ kubectl get pods
+No resources found in default namespace.
+
+To get details of pods running no pod fr now
+
+
+
+check and my docker image working r not
+download it google registry locally and run it/
+
+docker run -ti --rm -p 8080:8080 gcr.io/hale-function-227606/sachin-demo:v1
+
+docker run -ti --rm -p 8080:8585 
+
+
+since it was running with 8585
+
+https://8080-8fec4f26-4974-4e04-b7f6-961438216fb7.asia-southeast1.cloudshell.dev/SpringBootBaseDemo/login
+
+Once it is working fine GKE 
+
+Now to deploy this in kubernate cluster
+
+sachin19927@cloudshell:~ (hale-function-227606)$ kubectl run springdemoapp --image=gcr.io/hale-function-227606/sachin-demo:v1 --port=8080
+pod/springdemoapp created
+
+Till now it was pods and Deployment when create DNS means Load Balnce now it will go to service layer
+
+
+We can do this in YAML file config or in command base also
+
+
+sachin19927@cloudshell:~ (hale-function-227606)$ kubectl run springdemoapp-2 --image=gcr.io/hale-function-227606/sachin-demo:v1 --port=8585
+pod/springdemoapp-2 created
+
+supposed to create deployment but creating pods only still didnt identified y?
+
+sachin19927@cloudshell:~ (hale-function-227606)$ kubectl get pods
+NAME                     READY   STATUS    RESTARTS   AGE
+sachin-demo              1/1     Running   0          12m
+springdemoapp            1/1     Running   0          14m
+springdemoapp-1          1/1     Running   0          2m53s
+springdemoapp-2          1/1     Running   0          2m38s
+springdemoapp-kubernet   1/1     Running   0          9m41s
+
+But now we need to expose deployments/pods as LoadBalancer service now this will come to service part
+
+sachin19927@cloudshell:~ (hale-function-227606)$ kubectl expose pods sachin-demo --type=LoadBalancer
+service/sachin-demo exposed
+
+
+sachin19927@cloudshell:~ (hale-function-227606)$ kubectl get service
+NAME          TYPE           CLUSTER-IP   EXTERNAL-IP     PORT(S)          AGE
+kubernetes    ClusterIP      10.4.0.1     <none>          443/TCP          6h46m
+sachin-demo   LoadBalancer   10.4.13.92   34.71.203.225   8080:30709/TCP   3m54s
+sachin19927@cloudshell:~ (hale-function-227606)$
+
+http://34.71.203.225:8080/
+need to give port since no DNS
+
+sachin19927@cloudshell:~ (hale-function-227606)$ kubectl get nodes
+NAME                                              STATUS   ROLES    AGE     VERSION
+gke-demo-cluster-git-default-pool-7f14181b-5hts   Ready    <none>   6h52m   v1.15.12-gke.20
+gke-demo-cluster-git-default-pool-7f14181b-c56d   Ready    <none>   6h53m   v1.15.12-gke.20
+gke-demo-cluster-git-default-pool-7f14181b-xf44   Ready    <none>   6h52m   v1.15.12-gke.20
+sachin19927@cloudshell:~ (hale-function-227606)$
+
+
+sachin19927@cloudshell:~ (hale-function-227606)$ kubectl delete pod sachin-demo
+pod "sachin-demo" deleted
+
+http://34.122.92.123:8585/SpringBootBaseDemo/login
+
+
+sachin19927@cloudshell:~ (hale-function-227606)$ kubectl run spring-demo-app2 --image=gcr.io/hale-function-227606/sachin-demo:v1 --port=8585
+
+sachin19927@cloudshell:~ (hale-function-227606)$ kubectl expose deployment spring-demo-app1 --type=LoadBalancer
+
+sachin19927@cloudshell:~ (hale-function-227606)$ kubectl get service
+NAME               TYPE           CLUSTER-IP   EXTERNAL-IP     PORT(S)          AGE
+kubernetes         ClusterIP      10.4.0.1     <none>          443/TCP          7h13m
+spring-demo-app1   LoadBalancer   10.4.11.83   34.71.203.225   8080:30411/TCP   10m
+spring-demo-app2   LoadBalancer   10.4.8.220   34.122.92.123   8585:32517/TCP   10m
+sachin19927@cloudshell:~ (hale-function-227606)$
+
+
+kubectl scale deployment spring-demo-app2 --replicas=3
+it will create 2 more instacne with existing instacne so total 3 instacne and load Balnce in Service part
+
+
+
+Breif 
+
+1 spring Boot application will be created and wrapped into  docker image then uploaded google container registory
+2 From container kubernate will downlaod these images and deployeds as pods called as deployments
+3 inorder expose or graphisce to this deploymnets create services
+4 once service created it act has loadbalncer
+5 Scaling can be done to maintian loadbalance for this services  and will redirect to different instance
