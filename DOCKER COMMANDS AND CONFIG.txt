@@ -305,3 +305,233 @@ spec:
 		
 image nothing image which we can deploy
 deploy from docker		
+
+
+
+docker --version
+
+
+docker run -p 8989:8080 -p 50000:50000 -d --name myjenkins -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts
+
+docker ps
+docker logs ec4a626cc0ff
+
+admin
+e4a3b0667b81478c8b6d549deccccb71
+
+
+sachin19927
+g1sachind2
+
+
+Create a new job
+mutiple_db_test
+Free Style Project
+
+Git PRject url
+Source Code Management
+https://github.com/sachin19927/multiDBConnectionBootOrcPost.git
+add credentials
+
+mention branch
+main
+
+
+poll scm
+set schedule on every commit changes
+
+* * * * *
+
+Build 
+Invoke top level Maven target
+select MAVEN before that (Manage-> Global Tool Config  can add JDK and MAVEN and version)
+
+Goal :  clean install -DskipTests=true
+
+
+Docker image creation
+
+Manage pulgin
+
+Docker plug 
+Docker pulgin
+docker-build-setup
+CloudBees Docker Build and Publish plugin
+
+
+Build 
+
+Add build setup
+select build and publish
+
+but for that Docker file need to be added in project java code
+
+DOCKER Build and Publish
+Repo NAMEdockertagname/dokerid
+
+add its credentails
+-----------------------------------------------------------------------------------------------------------------------------------
+
+docker run -d --name sonarqube -p 9000:9000 sonarqube
+
+
+http://localhost:9000/
+admin 
+admin
+
+create project and project key to generate a token so jenkins and tomcat used
+
+Qualify gates we can set %
+
+testPRojectSetup
+test: 2ca867028fc0bdb8b62a974be5e222007b357afc
+
+
+docker rm -f dockerid
+
+docker run -d --name sonarqube -p 9000:9000 -v sonarqube_conf:/opt/sonarqube/conf -v sonarqube_extensions:/opt/sonarqube/extensions -v sonarqube_logs:/opt/sonarqube/logs -v sonarqube_data:/opt/sonarqube/data sonarqube
+
+docker volume ls
+
+
+
+--------------------------------------------------
+
+Jenkins manage plugin
+add sonarQube plugin
+
+Jenkins manage -> Config Systems  -> sonarQube servers
+
+Add server path and its token
+
+To get Token Admin login my account -Tokens
+
+992da77a713ffc23dbb4c013ad61582165a6f255
+
+username and password
+
+4 Config Sonarqube	Scanner path
+Global tool configutation
+Sonar Scanner config version
+
+Go to job 
+Build
+
+
+
+
+sonar.projectKey=sonarqube
+sonar.projectName=multi_db
+sonar.projectVersion=1.0
+sonar.login=admin
+sonar.password=g1sachind2
+sonar.sources=/var/jenkins_home/workspace/mutiple_db_test/src
+sonar.host.url=http://system-92:9000/
+
+
+docker ps -a
+
+create webhook in sonar to notify it
+Administative-> Configuration -> web hook->   jenkins path  jenkins	http://192.168.0.102:8080/sonarqube-webhook/
+
+
+
+https://www.youtube.com/watch?v=k-3krTRuAFA
+https://www.youtube.com/watch?v=tbr_PeAGdfo
+https://www.youtube.com/watch?v=11z2x3VYO_I
+https://www.youtube.com/watch?v=4AEW-yR_Biw
+https://www.youtube.com/watch?v=Spzk1lrCgNY
+https://www.youtube.com/watch?v=gsjJnByBfpM
+https://www.youtube.com/watch?v=jh7utASgKj4
+https://www.youtube.com/watch?v=y-Oz9lBYsH8
+https://www.tatvasoft.com/blog/integrate-sonarqube-with-jenkins/
+
+sonar
+userid: admin
+pwd: g1sachind2
+jenkins
+SACHIN_HS
+userid: sachin19927
+pwd:g1sachind2
+
+
+
+
+Jenkins pulgins
+
+green balls
+blue ocean
+
+
+ALT SHIFT + N = > Junit class for service
+
+
+ $ docker run -d -p 4516:4516 --name xld xebialabs/xl-deploy:8.5
+
+$ docker run -e "ADMIN_PASSWORD=desired-admin-password" -e "ACCEPT_EULA=Y" -p 4516:4516 --name xld xebialabs/xl-deploy:10.0
+docker pull xebialabs/xl-deploy
+
+docker run -e "ADMIN_PASSWORD=password" -e "ACCEPT_EULA=Y" -p 4516:4516 --name xld xebialabs/xl-deploy:10.0
+
+
+https://www.youtube.com/watch?v=G_UCeeb5EPc
+https://www.youtube.com/watch?v=vP695uTRTKA
+https://www.youtube.com/watch?v=--nQfs67zCM
+https://www.youtube.com/results?search_query=xl+deploy+installation+in+docker	
+
+
+pull one image
+
+docker rmi imageid
+
+docker images
+docker ps -a
+
+
+
+pull image 1st create a container by docker run
+
+then commit changes with docker id name
+
+docker commit ec4a626cc0ff sachingowd07/myjenkinssetup
+docker push ec4a626cc0ff sachingowd07/myjenkinssetup
+
+
+
+C:\WINDOWS\system32> docker tag jenkins/jenkins:lts sachingowd07/myjenkins
+PS C:\WINDOWS\system32> docker images
+REPOSITORY               TAG       IMAGE ID       CREATED        SIZE
+jenkins/jenkins          lts       de181f8c70e8   7 weeks ago    569MB
+sachingowd07/myjenkins   latest    de181f8c70e8   7 weeks ago    569MB
+sonarqube                latest    26bf39aba643   8 weeks ago    516MB
+xebialabs/xl-deploy      10.0      d918918fd27c   4 months ago   853MB
+PS C:\WINDOWS\system32> docker push sachingowd07/myjenkins
+Using default tag: latest
+The push refers to repository [docker.io/sachingowd07/myjenkins]
+563556cdbfa2: Mounted from sachingowd07/myjenkinssetup
+02f093c063e9: Mounted from sachingowd07/myjenkinssetup
+3f8a994aa753: Mounted from sachingowd07/myjenkinssetup
+c5cba21b72b2: Mounted from sachingowd07/myjenkinssetup
+ede1b75ee2d4: Mounted from sachingowd07/myjenkinssetup
+2014b69748a6: Mounted from sachingowd07/myjenkinssetup
+266587a5ab32: Mounted from sachingowd07/myjenkinssetup
+de531c5f3ab0: Mounted from sachingowd07/myjenkinssetup
+4a46d6007178: Mounted from sachingowd07/myjenkinssetup
+d9123e611a12: Mounted from sachingowd07/myjenkinssetup
+cda17f93b3fd: Mounted from sachingowd07/myjenkinssetup
+61994d51e164: Mounted from sachingowd07/myjenkinssetup
+18cf49e0abb6: Mounted from sachingowd07/myjenkinssetup
+b3a6d21173da: Mounted from sachingowd07/myjenkinssetup
+7b08aed1dfcf: Mounted from sachingowd07/myjenkinssetup
+e2c6ff462357: Mounted from sachingowd07/myjenkinssetup
+latest: digest: sha256:092c78dbba52bf9cb207c592587e9377a7da2702cc201eb8e2daa9f278e0eb02 size: 3668
+PS C:\WINDOWS\system32>
+
+
+Pi hole
+
+
+moving volume is mannual
+docker inspect sonarqube	
+
+go to mounts
